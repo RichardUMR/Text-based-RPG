@@ -4,8 +4,6 @@ import java.util.Random;
 public class TextBasedRPG {
     public static Scanner scan = new Scanner(System.in);
     public static Random random = new Random();
-    public static String yes = "y";
-    public static String no = "n";
     //determines the amount of items you can carry
     public static int maxItems = 5;
     //this is your actual inventory
