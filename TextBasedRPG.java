@@ -15,7 +15,7 @@ public class TextBasedRPG {
     public static int stealth = 1;
     public static int bullets = 1;
     public static int racism = 1;
-
+    public static int keys = 0;
 
     public static void main(String[] args)
     {
