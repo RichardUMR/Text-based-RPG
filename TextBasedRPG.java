@@ -66,7 +66,6 @@ public class TextBasedRPG {
             //no
             else if (answer.equals("n")) {
                 typewriter("...u still broke but u survived... u go home... u pussy... good ending...");
-                return;
             }
             //incorrect text
             else {
@@ -102,7 +101,7 @@ public class TextBasedRPG {
                     typewriter("all you can do is pray while small insects and rodents feed on your flesh");
                     typewriter("... You died...");
 
-                    return;
+                    dead();
                 }
                 door();
             }
@@ -132,7 +131,7 @@ public class TextBasedRPG {
                     typewriter("all you can do is pray while small insects and rodents feed on your flesh");
                     typewriter("... You died...     easter egg 1");
 
-                    return;
+                    dead();
                 }
             }
             //stats
@@ -184,7 +183,7 @@ public class TextBasedRPG {
             else if (answer.equalsIgnoreCase("punch door")) {
                 typewriter("You try to punch the door, but the door punches you first.");
                 typewriter("You died... idiot... door ending...");
-                return;
+                dead();
             }
             else if (answer.equals("stats")) {
                 typewriter("Stats: Speed " + speed + "  Stealth " + stealth + "  Bullets " + bullets + "  insanity " + insanity);
@@ -329,6 +328,7 @@ public class TextBasedRPG {
             typewriter("as soon as your finger tips touch the chest your whole hand turn into gold");
             typewriter("in less then a second you turn into a statue of solid gold");
             typewriter("you died...     chest ending");
+            dead();
         }
 
         else if (answer.equals("stats")) {
@@ -442,6 +442,7 @@ public class TextBasedRPG {
                 typewriter("u can feel coldness rise from your core, your vision starts to darken, leaving you in the cold darkness of the cave");
                 typewriter("all you can do is pray while small insects and rodents feed on your flesh");
                 typewriter("... You died...");
+                dead();
             }
         }
         else if (answer.equalsIgnoreCase("gun"))
@@ -464,8 +465,7 @@ public class TextBasedRPG {
             typewriter("the pain is unimaginable, you start begging for your life hopping that somewhere someone, something would save you");
             typewriter("u can feel coldness rise from your core, your vision starts to darken, leaving you in the cold darkness of the cave");
             typewriter("all you can do is pray while small insects and rodents feed on your flesh");
-            typewriter("... You died...     please call 988 Help is available suicide is not the answer :(");
-            return;
+            typewriter("... You died...     please call 988 Help is available suicide is not the answer");
         }
         else if (answer.equals("stats")) {
             typewriter("Stats: Speed " + speed + "  Stealth " + stealth + "  Bullets " + bullets + "  insanity " + insanity);
@@ -615,6 +615,7 @@ public class TextBasedRPG {
             typewriter("u can feel coldness rise from your core, your vision starts to darken, leaving you in the cold darkness of the cave");
             typewriter("all you can do is pray while small insects and rodents feed on your flesh");
             typewriter("... You died...");
+            dead();
 
         }
     }
@@ -850,12 +851,24 @@ public class TextBasedRPG {
             typewriter("if you select hit you'll draw a card");
             typewriter("if you select stand you'll end your turn");
             typewriter("if you get over 21 you loose");
-            typewriter("if the dealer gets more");
+            typewriter("if the dealer gets more then you, you loose");
+            typewriter("if you get more then the dealer you win");
+            typewriter("if you get the same as the dealer you tie");
+            typewriter("the game will only end once you either win, tie, or loose");
+            typewriter(" ");
+            bj();
         }
         else if (answer.equalsIgnoreCase("n")) {
+            typewriter(" ");
             typewriter("how much do you want to bet?");
             int bet = scan.nextInt();
             scan.nextLine();
+
+            if (bet > chip) {
+                typewriter("You don't have enough chips for that.");
+                typewriter("Buy more and come back");
+                casino();
+            }
 
             while (end < 1) {
                 //stats
@@ -863,7 +876,7 @@ public class TextBasedRPG {
                 typewriter("Player's card: " + pcard);
                 typewriter("Dealer's card: " + dsc + " one card is hidden");
                 typewriter("what will you do?");
-                typewriter("hit / stand / im out");
+                typewriter("(hit / stand)");
                 String decision = scan.nextLine();
 
                 //game
@@ -871,23 +884,51 @@ public class TextBasedRPG {
                 {
                     int hit = random.nextInt(1, 12);
                     typewriter("Player's card: " + (pcard + hit));
-                    pcard += hit;
+                    pcard = pcard + hit;
 
                     if ((pcard + hit) >= 22) {
                         typewriter("Bust!");
                         chip = chip - bet;
                         typewriter("You lost: " + bet + " chips");
-                        end++;
+                        typewriter(" ");
+                        typewriter("do you wan to play again?");
+                        typewriter("(y / n)");
+                        String confirm1 = scan.nextLine();
+
+                        if (confirm1.equalsIgnoreCase("y"))
+                        {
+                            bj();
+                            end++;
+                        }
+                        else if (confirm1.equalsIgnoreCase("n"))
+                        {
+                            typewriter(" ");
+                            games();
+                            end++;
+                        }
                     }
 
                     else if ((pcard + hit) == 21) {
                         typewriter("Blackjack!");
                         typewriter(" ");
                         chip = bet * 2;
-                        end++;
+                        typewriter(" ");
+                        typewriter("do you wan to play again?");
+                        typewriter("(y / n)");
+                        String confirm = scan.nextLine();
+                        if (confirm.equalsIgnoreCase("y"))
+                        {
+                            end++;
+                            bj();
+                        }
+                        else if (confirm.equalsIgnoreCase("n"))
+                        {
+                            typewriter(" ");
+                            end++;
+                            games();
+                        }
                     }
                 }
-
                 else if (decision.equalsIgnoreCase("stand"))
                 {
                     typewriter("Dealer reveals his cards");
@@ -903,55 +944,151 @@ public class TextBasedRPG {
                         dsc = dsc + hit;
 
                         typewriter("Dealer's cards: " + dsc);
+                        typewriter("Your cards: " + pcard);
 
                         if (dsc > 22)
                         {
+                            typewriter(" ");
                             typewriter("the dealer bust!");
                             typewriter("you win!");
                             chip = chip + bet;
                             typewriter("You won: " + bet + " chips");
-                            end++;
+                            typewriter(" ");
+                            typewriter("do you wan to play again?");
+                            typewriter("(y / n)");
+                            String confirm = scan.nextLine();
+                            if (confirm.equalsIgnoreCase("y"))
+                            {
+                                end++;
+                                bj();
+                            }
+                            else if (confirm.equalsIgnoreCase("n"))
+                            {
+                                typewriter(" ");
+                                end++;
+                                games();
+                            }
+
                         }
                         else if (dsc == 21)
                         {
-                            typewriter(" the dealer got a blackjack!");
+                            typewriter(" ");
+                            typewriter("the dealer got a blackjack!");
 
                             if (pcard == 21)
                             {
+                                typewriter(" ");
                                 typewriter("its a tie!");
                                 typewriter("You lost/won: 0 chips");
-                                end++;
+                                typewriter(" ");
+                                typewriter("do you wan to play again?");
+                                typewriter("(y / n)");
+                                String confirm = scan.nextLine();
+                                if (confirm.equalsIgnoreCase("y"))
+                                {
+                                    end++;
+                                    bj();
+                                }
+                                else if (confirm.equalsIgnoreCase("n"))
+                                {
+                                    typewriter(" ");
+                                    end++;
+                                    games();
+                                }
                             }
                             else {
+                                typewriter(" ");
                                 typewriter("you lost!");
                                 chip = chip - bet;
                                 typewriter("You lost: " + bet + " chips");
-                                end++;
+                                typewriter(" ");
+                                typewriter("do you wan to play again?");
+                                typewriter("(y / n)");
+                                String confirm = scan.nextLine();
+                                if (confirm.equalsIgnoreCase("y"))
+                                {
+                                    end++;
+                                    bj();
+                                }
+                                else if (confirm.equalsIgnoreCase("n"))
+                                {
+                                    typewriter(" ");
+                                    games();
+                                    end++;
+
+                                }
                             }
                         }
                         else if (dsc < pcard)
                         {
+                            typewriter(" ");
                             typewriter("you win!");
                             chip = chip + bet;
                             typewriter("You won: " + bet + " chips");
-                            end++;
+                            typewriter(" ");
+                            typewriter("do you wan to play again?");
+                            typewriter("(y / n)");
+                            String confirm = scan.nextLine();
+                            if (confirm.equalsIgnoreCase("y"))
+                            {
+                                end++;
+                                bj();
+                            }
+                            else if (confirm.equalsIgnoreCase("n"))
+                            {
+                                typewriter(" ");
+                                end++;
+                                games();
+                            }
                         }
                         else if (dsc > pcard)
                         {
+                            typewriter(" ");
                             typewriter("you lost!");
                             chip = chip - bet;
-                            typewriter("You lost: " + bet + " chips");
-                            end++;
+                            typewriter("You lost: " + bet + " chips");typewriter(" ");
+                            typewriter("do you want to play again?");
+                            typewriter("(y / n)");
+                            String confirm = scan.nextLine();
+                            if (confirm.equalsIgnoreCase("y"))
+                            {
+                                end++;
+                                bj();
+                            }
+                            else if (confirm.equalsIgnoreCase("n"))
+                            {
+                                typewriter(" ");
+                                end++;
+                                games();
+                            }
                         }
                         else
                         {
+                            typewriter(" ");
                             typewriter("its a tie!");
-                            typewriter("You lost/won: 0 chips");
-                            end++;
+                            typewriter("You lost/won: 0 chips");typewriter(" ");
+                            typewriter("do you wan to play again?");
+                            typewriter("(y / n)");
+                            String confirm = scan.nextLine();
+                            if (confirm.equalsIgnoreCase("y"))
+                            {
+                                end++;
+                                bj();
+                            }
+                            else if (confirm.equalsIgnoreCase("n"))
+                            {
+                                typewriter(" ");
+                                end++;
+                                games();
+                            }
                         }
                     }
-
                 }
+                else {
+                    typewriter("please enter 'hit' or 'stand'");
+                    end++;
+                }
+
 
             }
         }
@@ -997,6 +1134,13 @@ public class TextBasedRPG {
         }
     }
 
+    public static void dead()
+    {
+        typewriter("what is your name?");
+        String Name = scan.nextLine();
+        typewriter(Name + "you suck!");
+        return;
+    }
 
     public static void typewriter(String text) {
         int i;
