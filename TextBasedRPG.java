@@ -9,8 +9,8 @@ public class TextBasedRPG {
     //this is your actual inventory
     public static String[] inventory = new String[maxItems];
 
-    public static int tspeed = 25;
-    public static int dbugv = 0;
+    public static int tspeed = 20;
+
     // stats
     public static int speed = 1;
     public static int stealth = 1;
@@ -24,7 +24,11 @@ public class TextBasedRPG {
 
     public static void main(String[] args)
     {
+        fakemain();
+    }
 
+    public static void fakemain()
+    {
         System.out.println("Welcome to our RPG game!");
         System.out.println("Press ENTER to begin...");
         String answer = scan.nextLine();
@@ -32,10 +36,31 @@ public class TextBasedRPG {
         if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 1;
         }
         else{
-        intro();
+            gamemode();
+        }
+    }
+
+    public static void gamemode()
+    {
+        typewriter("which game mode do you want to play?");
+        typewriter("Story mode / Casino only");
+        String answer = scan.nextLine();
+
+        if (answer.equalsIgnoreCase("story mode"))
+        {
+            typewriter(" ");
+            intro();
+        }
+        else if (answer.equalsIgnoreCase("Casino only"))
+        {
+            typewriter(" ");
+            pennies = 1000;
+            casino();
+        }
+        else {
+            typewriter("Incorrect value, please enter 'Story mode' or 'Casino only'");
         }
     }
 
@@ -76,7 +101,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 2;
         }
             //incorrect text
             else {
@@ -159,7 +183,7 @@ public class TextBasedRPG {
             else if (answer.equalsIgnoreCase("debug"))
             {
                 debug();
-                dbugv = 3;
+
             }
             //wrong input
             else {
@@ -214,7 +238,6 @@ public class TextBasedRPG {
             else if (answer.equalsIgnoreCase("debug"))
             {
                 debug();
-                dbugv = 4;
             }
             else {
                 typewriter("Invalid input. Please enter 'check under carpet', 'open door', 'punch door', or 'stats'.");
@@ -277,7 +300,6 @@ public class TextBasedRPG {
             else if (answer.equalsIgnoreCase("debug"))
             {
                 debug();
-                dbugv = 5;
             }
             else {
                 typewriter("Invalid input. Please enter one of the answers.");
@@ -329,7 +351,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 6;
         }
         else {
             typewriter("Invalid input. Please enter one of the answers.");
@@ -370,7 +391,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 7;
         }
         else {
             typewriter("Invalid input. Please enter one of the answers.");
@@ -442,7 +462,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 8;
         }
         else {
             typewriter("Invalid input. Please enter one of the answers.");
@@ -518,7 +537,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 9;
         }
         else {
             typewriter("Invalid input. Please enter one of the answers.");
@@ -686,7 +704,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 10;
         }
         else {
             typewriter("Invalid choice! Please enter 'go home' or 'casino'");
@@ -698,8 +715,10 @@ public class TextBasedRPG {
     {
         typewriter(" ");
         typewriter("you enter the casino");
+        typewriter("you have: " + pennies + " pennies left");
+        typewriter("you have: " + chip + " chips left");
         typewriter("how many chips do you want to buy?");
-        typewriter("10 / 100 / 500 / play");
+        typewriter("10 / 100 / 500 / play / cash out");
         String answer = scan.nextLine();
 
         if (answer.equalsIgnoreCase("10"))
@@ -777,7 +796,31 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 11;
+        }
+        else if (answer.equalsIgnoreCase("cash out"))
+        {
+            typewriter("  ");
+            typewriter("the minimum to cash out is 500 chips");
+            typewriter("do you want to continue?");
+            typewriter("(y / n)");
+            String answer1 = scan.nextLine();
+
+            if  (answer1.equalsIgnoreCase("y"))
+            {
+                typewriter(" ");
+                typewriter("pennies +" + chip);
+                typewriter("chip -" + chip);
+
+                pennies = pennies + chip;
+                chip = 0;
+
+                casino();
+            }
+            else if (answer1.equalsIgnoreCase("n"))
+            {
+                typewriter(" ");
+                casino();
+            }
         }
         else {
             typewriter("Invalid choice! Please enter '10', '100', or '500'");
@@ -886,7 +929,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 12;
         }
             else {
             typewriter("Invalid choice! Please enter one of the answers");
@@ -1164,7 +1206,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 13;
         }
     }
 
@@ -1377,7 +1418,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 14;
         }
     }
 
@@ -1551,7 +1591,6 @@ public class TextBasedRPG {
         else if (answer.equalsIgnoreCase("debug"))
         {
             debug();
-            dbugv = 15;
         }
 
     }
@@ -1619,8 +1658,11 @@ public class TextBasedRPG {
 
             else if (answer.equalsIgnoreCase("map")) {
                 typewriter("where");
-                typewriter("(intro / decisions / cave / door / wall / wall2 / treasure / pennies / monster / rps / gambling / casino / games / bj / slots / cf / dollar / dead)");
+                typewriter("(main / intro / decisions / cave / door / wall / wall2 / treasure / pennies / monster / rps / gambling / casino / games / bj / slots / cf / dollar / dead)");
                 String map = scan.nextLine();
+                if (map.equalsIgnoreCase("main")) {
+                    fakemain();
+                }
                 if (map.equalsIgnoreCase("intro")) {
                     intro();
                 }
