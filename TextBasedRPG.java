@@ -10,6 +10,7 @@ public class TextBasedRPG {
     public static String[] inventory = new String[maxItems];
 
     public static int tspeed = 20;
+    public static boolean yes = false;
 
     // stats
     public static int speed = 1;
@@ -61,6 +62,7 @@ public class TextBasedRPG {
         }
         else {
             typewriter("Incorrect value, please enter 'Story mode' or 'Casino only'");
+            gamemode();
         }
     }
 
@@ -713,6 +715,10 @@ public class TextBasedRPG {
 
     public static void casino()
     {
+        if (chip < 0)
+        {
+            chip = 0;
+        }
         typewriter(" ");
         typewriter("you enter the casino");
         typewriter("you have: " + pennies + " pennies left");
@@ -727,7 +733,7 @@ public class TextBasedRPG {
                 typewriter("you bought 10 chips");
                 chip = chip + 10;
                 pennies = pennies - 10;
-                typewriter("you have " + pennies + " pennies left left");
+                typewriter("you have " + pennies + " pennies left");
                 casino();
             }
             else {
@@ -742,7 +748,7 @@ public class TextBasedRPG {
                 typewriter("you bought 100 chips");
                 chip = chip + 100;
                 pennies = pennies - 100;
-                typewriter("you have " + pennies + " pennies left left");
+                typewriter("you have " + pennies + " pennies left");
                 typewriter(" ");
                 casino();
             }
@@ -759,7 +765,8 @@ public class TextBasedRPG {
                 typewriter("you bought 500 chips");
                 chip = chip + 500;
                 pennies = pennies - 500;
-                typewriter("you have " + pennies + " pennies left left");
+                typewriter("you have " + pennies + " pennies left" +
+                        "");
                 typewriter(" ");
                 casino();
             }
@@ -831,6 +838,10 @@ public class TextBasedRPG {
 
     public static void games()
     {
+        if (chip < 0)
+        {
+            chip = 0;
+        }
         typewriter("you have:" + pennies + " pennies left");
         typewriter("you have:" + chip + " chips left");
         typewriter(" ");
@@ -939,10 +950,11 @@ public class TextBasedRPG {
 
     public static void bj()
     {
+
         int dcard1 = random.nextInt(1,12);
         int dcard2 = random.nextInt(1, 11);
         int dsc = dcard1;
-        int pcard = random.nextInt(1, 22);
+        int pcard = random.nextInt(2, 22);
         int end = 0;
 
         typewriter("Blackjack");
@@ -981,6 +993,10 @@ public class TextBasedRPG {
             }
 
             while (end < 1) {
+                if (chip < 0)
+                {
+                    chip = 0;
+                }
                 //stats
                 typewriter(" ");
                 typewriter("Player's card: " + pcard);
@@ -1211,6 +1227,10 @@ public class TextBasedRPG {
 
     public static void slots()
     {
+        if (chip < 0)
+        {
+            chip = 0;
+        }
         int num1 = random.nextInt(1, 8);
         int num2 = random.nextInt(1, 8);
         int num3 = random.nextInt(1, 8);
@@ -1275,13 +1295,14 @@ public class TextBasedRPG {
                 System.out.println("|" + " * * * " + "| ---o");
                 System.out.println("- - - - -");
 
-                //add
+
                 if (num1 == 6 || num2 == 6 || num3 == 6)
                 {
                     System.out.println(" ");
                     typewriter("you got a six!");
                     typewriter("you win nothing!");
-                    chip = bet * -1;
+                    bet = bet * -1;
+                    chip = bet + chip;
                     typewriter(" ");
                     typewriter("do you want to play again?");
                     typewriter("(y / n)");
@@ -1303,7 +1324,7 @@ public class TextBasedRPG {
                     System.out.println(" ");
                     typewriter("you got 3 unmatched numbers!");
                     typewriter("you got: " + bet * 1 + "chips");
-                    chip = chip - bet;
+                    chip = bet - chip;
                     typewriter(" ");
                     typewriter("do you wan to play again?");
                     typewriter("(y / n)");
@@ -1332,12 +1353,14 @@ public class TextBasedRPG {
                         typewriter("you got two 6's!");
 
                         typewriter("you lost: " + bet * -2 + " chips");
-                        chip = bet * -2;
+                        bet = bet * -2;
+                        chip = bet + chip;
                     }
                     else {
                         typewriter("you dint get a single 6!");
                         typewriter("you won: " + bet * 2 + " chips");
-                        chip = bet * 2;
+                        bet = bet * 2;
+                        chip = bet + chip;
                     }
                 }
 
@@ -1349,7 +1372,8 @@ public class TextBasedRPG {
                         typewriter("you got three 6's!");
 
                         typewriter("you lost: " + bet * -5 + " chips");
-                        chip = bet * -5;
+                        bet = bet * -5;
+                        chip = bet + chip;
                         typewriter(" ");
                         typewriter("do you wan to play again?");
                         typewriter("(y / n)");
@@ -1367,12 +1391,13 @@ public class TextBasedRPG {
                             end = true;
                         }
                     }
-                    else if (num1 == 6 && num2 == 6 && num3 == 6)
+                    else if (num1 == 7 && num2 == 7 && num3 == 7)
                     {
                         typewriter("you got three 7's!");
 
                         typewriter("you won: " + bet * 5 + " chips");
-                        chip = bet * 5;
+                        bet = bet * 5;
+                        chip = bet + chip;
                         typewriter(" ");
                         typewriter("do you wan to play again?");
                         typewriter("(y / n)");
@@ -1393,9 +1418,10 @@ public class TextBasedRPG {
                     else {
                         typewriter("you dint get a single 6!");
                         typewriter("you won: " + bet * 3 + " chips");
-                        chip = bet * 3;
+                        bet = bet * 3;
+                        chip = bet + chip;
                         typewriter(" ");
-                        typewriter("do you wan to play again?");
+                        typewriter("do you want to play again?");
                         typewriter("(y / n)");
                         String confirm1 = scan.nextLine();
 
@@ -1423,6 +1449,10 @@ public class TextBasedRPG {
 
     public static void cf()
     {
+        if (chip < 0)
+        {
+            chip = 0;
+        }
         typewriter("Coin Flip");
         typewriter("---------");
         typewriter(" ");
@@ -1631,20 +1661,23 @@ public class TextBasedRPG {
 
     public static void debug() {
         String psswrd = "Thor103023";
-        typewriter("whats the code?");
-        String code = scan.nextLine();
-
-            while (!code.equalsIgnoreCase("Thor103023")) {
-                typewriter(" ");
-                typewriter("WRONG!!");
-                typewriter("whats the code?");
+        if (yes == false) {
+            typewriter(" ");
+            typewriter("whats the code?");
+            String code = scan.nextLine();
+            while (!code.equals(psswrd)) {
+                typewriter("wrong");
                 code = scan.nextLine();
             }
-
-            for (int i = 0; i < 20; i++) {
-                typewriter(" ");
+            if (code.equals(psswrd))
+            {
+                yes = true;
             }
+        }
 
+        typewriter(" Debug");
+        typewriter("-------");
+            typewriter(" ");
             typewriter("($ / map / chip / stat / txt sped / end)");
             String answer = scan.nextLine();
 
@@ -1652,11 +1685,10 @@ public class TextBasedRPG {
                 typewriter("how much");
                 pennies = scan.nextInt();
                 typewriter("pennies: " + pennies);
+                scan.nextLine();
 
                 debug();
-            }
-
-            else if (answer.equalsIgnoreCase("map")) {
+            } else if (answer.equalsIgnoreCase("map")) {
                 typewriter("where");
                 typewriter("(main / intro / decisions / cave / door / wall / wall2 / treasure / pennies / monster / rps / gambling / casino / games / bj / slots / cf / dollar / dead)");
                 String map = scan.nextLine();
@@ -1665,72 +1697,54 @@ public class TextBasedRPG {
                 }
                 if (map.equalsIgnoreCase("intro")) {
                     intro();
-                }
-                else if (map.equalsIgnoreCase("decisions")) {
+                } else if (map.equalsIgnoreCase("decisions")) {
                     decisions();
-                }
-                else if (map.equalsIgnoreCase("cave")) {
+                } else if (map.equalsIgnoreCase("cave")) {
                     cave();
-                }
-                else if (map.equalsIgnoreCase("wall")) {
+                } else if (map.equalsIgnoreCase("wall")) {
                     wall();
-                }
-                else if (map.equalsIgnoreCase("wall2")) {
+                } else if (map.equalsIgnoreCase("wall2")) {
                     wall2();
-                }
-                else if (map.equalsIgnoreCase("treasure")) {
+                } else if (map.equalsIgnoreCase("treasure")) {
                     treasure();
-                }
-                else if (map.equalsIgnoreCase("pennies")) {
+                } else if (map.equalsIgnoreCase("pennies")) {
                     pennies();
-                }
-                else if (map.equalsIgnoreCase("monster")) {
+                } else if (map.equalsIgnoreCase("monster")) {
                     monster();
-                }
-                else if (map.equalsIgnoreCase("rps")) {
+                } else if (map.equalsIgnoreCase("rps")) {
                     rps();
-                }
-                else if (map.equalsIgnoreCase("gambling")) {
+                } else if (map.equalsIgnoreCase("gambling")) {
                     gambling();
-                }
-                else if (map.equalsIgnoreCase("casino")) {
+                } else if (map.equalsIgnoreCase("casino")) {
                     casino();
-                }
-                else if (map.equalsIgnoreCase("games")) {
+                } else if (map.equalsIgnoreCase("games")) {
                     games();
-                }
-                else if (map.equalsIgnoreCase("bj")) {
+                } else if (map.equalsIgnoreCase("bj")) {
                     bj();
-                }
-                else if (map.equalsIgnoreCase("slots")) {
+                } else if (map.equalsIgnoreCase("slots")) {
                     slots();
-                }
-                else if (map.equalsIgnoreCase("cf")) {
+                } else if (map.equalsIgnoreCase("cf")) {
                     cf();
-                }
-                else if (map.equalsIgnoreCase("dollar")) {
+                } else if (map.equalsIgnoreCase("dollar")) {
                     dollar();
-                }
-                else if (map.equalsIgnoreCase("dead")) {
+                } else if (map.equalsIgnoreCase("dead")) {
                     dead();
                 }
-            }
-
-            else if (answer.equalsIgnoreCase("chip")) {
+            } else if (answer.equalsIgnoreCase("chip")) {
                 typewriter("how much");
                 chip = scan.nextInt();
                 typewriter("chip: " + chip);
+                scan.nextLine();
 
                 debug();
-            }
-
-            else if (answer.equalsIgnoreCase("stat")) {
+            } else if (answer.equalsIgnoreCase("stat")) {
                 typewriter("(speed / stealth / bullets / insanity)");
                 String stats = scan.nextLine();
                 if (stats.equalsIgnoreCase("speed")) {
                     typewriter("how much");
                     speed = scan.nextInt();
                     typewriter("speed: " + speed);
+                    scan.nextLine();
 
                     debug();
                 }
@@ -1738,6 +1752,7 @@ public class TextBasedRPG {
                     typewriter("how much");
                     stealth = scan.nextInt();
                     typewriter("stealth: " + stealth);
+                    scan.nextLine();
 
                     debug();
                 }
@@ -1745,6 +1760,7 @@ public class TextBasedRPG {
                     typewriter("how much");
                     bullets = scan.nextInt();
                     typewriter("bullets: " + bullets);
+                    scan.nextLine();
 
                     debug();
                 }
@@ -1752,23 +1768,20 @@ public class TextBasedRPG {
                     typewriter("how much");
                     insanity = scan.nextInt();
                     typewriter("insanity: " + insanity);
+                    scan.nextLine();
 
                     debug();
                 }
 
-            }
-
-            else if (answer.equalsIgnoreCase("txt sped")) {
+            } else if (answer.equalsIgnoreCase("txt sped")) {
                 typewriter("how much");
                 tspeed = scan.nextInt();
+                scan.nextLine();
 
                 debug();
-            }
-
-            else if (answer.equalsIgnoreCase("end")) {
+            } else if (answer.equalsIgnoreCase("end")) {
                 return;
             }
-
     }
 
     public static void typewriter(String text) {
